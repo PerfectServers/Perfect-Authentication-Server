@@ -28,6 +28,8 @@ func mainRoutes() -> [[String: Any]] {
 	// Special healthcheck
 	// =========================================================================================
 	routes.append(["method":"get", "uri":"/healthcheck", "handler":Handlers.healthcheck])
+	routes.append(["method":"get", "uri":"/initialize", "handler":Handlers.initialize])
+	routes.append(["method":"post", "uri":"/setup", "handler":Handlers.initializeSave])
 
 	// =========================================================================================
 	// add Static files

@@ -27,6 +27,15 @@ class Handlers {
 	static func main(data: [String:Any]) throws -> RequestHandler {
 		return {
 			request, response in
+
+			let users = Account()
+			try? users.findAll()
+			if users.rows().count == 0 {
+				response.redirect(path: "/initialize")
+				response.completed()
+				return
+			}
+
 			var context: [String : Any] = ["title": "Perfect Authentication Server"]
 			if let i = request.session?.userid, !i.isEmpty { context["authenticated"] = true }
 
@@ -37,22 +46,5 @@ class Handlers {
 			response.render(template: "views/index", context: context)
 		}
 	}
-
-//	public static func login(data: [String:Any]) throws -> RequestHandler {
-//		return {
-//			request, response in
-//			var context: [String : Any] = ["title": "Perfect Authentication Server"]
-//			if let i = request.session?.userid, !i.isEmpty { context["authenticated"] = true }
-//
-//			// add app config vars
-//			for i in Handlers.extras(request) { context[i.0] = i.1 }
-//			for i in Handlers.appExtras(request) { context[i.0] = i.1 }
-//
-//			response.render(template: "views/login", context: context)
-//		}
-//	}
-
-
-
 
 }
