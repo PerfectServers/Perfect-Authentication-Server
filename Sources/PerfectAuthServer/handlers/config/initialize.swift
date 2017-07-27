@@ -40,6 +40,7 @@ extension Handlers {
 		return {
 			request, response in
 
+			
 			let users = Account()
 			try? users.findAll()
 			if users.rows().count > 0 {

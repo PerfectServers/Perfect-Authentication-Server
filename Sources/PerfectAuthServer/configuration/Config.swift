@@ -19,11 +19,12 @@
 
 import PerfectLib
 import JSONConfig
+import PerfectSession
 import PerfectSessionPostgreSQL
 import LocalAuthentication
 import OAuth2
+import StORM
 import PostgresStORM
-
 
 struct AppCredentials {
 	var clientid = ""
@@ -41,11 +42,31 @@ func config() {
 		if let dict = configData.getValues() {
 
 			// Required Values
-			httpPort = dict["httpport"] as! Int
+			httpPort = dict["httpport"] as? Int ?? httpPort
 
 			// Optional Values
-//			if let i = dict["keyname"] { let x = i as? String ?? "" }
+			if let i = dict["databasedebug"] {
+				if (i as? String ?? "") == "true" {
+					StORMdebug = true
+				}
+			}
 
+			if let i = dict["sslCertPath"] {
+				if !(i as? String ?? "").isEmpty {
+					sslCertPath = i as? String ?? ""
+				}
+			}
+			if let i = dict["sslKeyPath"] {
+				if !(i as? String ?? "").isEmpty {
+					sslKeyPath = i as? String ?? ""
+				}
+			}
+
+			if let i = dict["baseDomain"] {
+				if !(i as? String ?? "").isEmpty {
+					SessionConfig.cookieDomain = i as? String ?? SessionConfig.cookieDomain
+				}
+			}
 
 			// For ORM
 			PostgresConnector.host        = dict["postgreshost"] as? String ?? "localhost"

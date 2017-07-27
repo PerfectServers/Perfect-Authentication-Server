@@ -17,6 +17,11 @@
 	"mailfromname": "...",
 
 
+	"databasedebug": "false",
+	"sslCertPath": "",
+	"sslKeyPath": "",
+
+	
 	"facebookAppID": "",
 	"facebookSecret": "",
 	"facebookEndpointAfterAuth": "http://localhost:8181/auth/response/facebook",

@@ -1,8 +1,8 @@
 //
 //  main.swift
-//  Perfect-App-Template
+//  Perfect Auth Server
 //
-//  Created by Jonathan Guthrie on 2017-02-20.
+//  Created by Jonathan Guthrie on 2017-07-27.
 //	Copyright (C) 2017 PerfectlySoft, Inc.
 //
 //===----------------------------------------------------------------------===//
@@ -39,8 +39,13 @@ let fname = "./config/ApplicationConfiguration.json"
 #endif
 
 var baseURL = ""
+var sslCertPath = ""
+var sslKeyPath = ""
 
+
+// =======================================================================
 // Configuration of Session
+// =======================================================================
 SessionConfig.name = "perfectSession" // <-- change
 SessionConfig.idle = 86400
 SessionConfig.cookieDomain = "localhost" //<-- change
@@ -50,30 +55,56 @@ SessionConfig.CSRF.checkState = true
 SessionConfig.CORS.enabled = true
 SessionConfig.cookieSameSite = .lax
 
+
+// =======================================================================
+// Logfile
+// =======================================================================
 RequestLogFile.location = "./log.log"
+
+
 
 let opts = initializeSchema(fname) // <-- loads base config like db and email configuration
 httpPort = opts["httpPort"] as? Int ?? httpPort
 baseURL = opts["baseURL"] as? String ?? baseURL
 
-config() // for custom options
-let sessionDriver = SessionPostgresDriver()
-Utility.initializeObjects() // local setups
 
+
+// =======================================================================
+// Load DB access
+// We cn also now init the session driver
+// =======================================================================
+config()
+let sessionDriver = SessionPostgresDriver()
+Utility.initializeObjects()
+
+
+
+
+// =======================================================================
 // Run local setup routines
+// =======================================================================
 Config.runSetup()
 
+
+
+// =======================================================================
 // Defaults
+// =======================================================================
 var configTitle = Config.getVal("title","Perfect Auth Server")
 var configLogo = Config.getVal("logo","/images/perfect-logo-2-0.png")
 var configLogoSrcSet = Config.getVal("logosrcset","/images/perfect-logo-2-0.png 1x, /images/perfect-logo-2-0.svg 2x")
 
 
+
+
+
+// =======================================================================
 // Configure Server
+// =======================================================================
 var confData: [String:[[String:Any]]] = [
 	"servers": [
 		[
-			"name":"localhost",
+			"name":"mainServer",
 			"port":httpPort,
 			"routes":[],
 			"filters":[]
@@ -81,12 +112,50 @@ var confData: [String:[[String:Any]]] = [
 	]
 ]
 
+
+
+// =======================================================================
 // Load Filters
+// =======================================================================
 confData["servers"]?[0]["filters"] = filters()
 
+
+
+
+
+// =======================================================================
 // Load Routes
+// =======================================================================
 confData["servers"]?[0]["routes"] = mainRoutes()
 
+
+
+
+// =======================================================================
+// TLS Config
+// =======================================================================
+if !sslKeyPath.isEmpty, !sslCertPath.isEmpty {
+	confData["servers"]?[0]["tlsConfig"] = [
+		"certPath": sslCertPath,
+		"verifyMode": "peer",
+		"keyPath": sslKeyPath
+		]
+
+	// Redirect from Port 80 to 443
+//	confData["servers"]?.append([
+//		"name":"redirectServer",
+//		"port":80,
+//		"routes":[
+//			["method":"get", "uri":"/**", "handler":PerfectHTTPServer.HTTPHandler.redirect,
+//			 "base":"\(baseURL)"]
+//		]
+//	])
+}
+
+
+// =======================================================================
+// Server start
+// =======================================================================
 do {
 	// Launch the servers based on the configuration data.
 	try HTTPServer.launch(configurationData: confData)
