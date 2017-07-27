@@ -74,7 +74,7 @@ func mainRoutes() -> [[String: Any]] {
 	for 'oauth-swift' URL scheme : http://oauthswift.herokuapp.com/callback/{path?query} which redirect to oauth-swift://oauth-callback/{path?query}
 	*/
 	// =========================================================================================
-	routes.append(["method":"get", "uri":"/api/v1/oauth/return", "handler":LocalAuthJSONHandlers.oAuthRedirecter])
+	routes.append(["method":"get", "uri":"/api/v1/oauth/return/{provider}", "handler":LocalAuthJSONHandlers.oAuthRedirecter])
 
 	// =========================================================================================
 	// Users
