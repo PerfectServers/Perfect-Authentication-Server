@@ -21,6 +21,9 @@ extension Handlers {
 
 			if (request.session?.userid ?? "").isEmpty { response.completed(status: .notAcceptable) }
 
+			// Verify Admin
+			Account.adminBounce(request, response)
+
 			let user = Account()
 
 			if let id = request.urlVariables["id"] {

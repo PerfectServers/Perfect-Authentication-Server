@@ -22,6 +22,9 @@ extension Handlers {
 			let contextAuthenticated = !(request.session?.userid ?? "").isEmpty
 			if !contextAuthenticated { response.redirect(path: "/login") }
 
+			// Verify Admin
+			Account.adminBounce(request, response)
+
 			let users = Account.listUsers()
 
 			var context: [String : Any] = [

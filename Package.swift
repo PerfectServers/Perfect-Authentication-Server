@@ -1,5 +1,5 @@
 // Generated automatically by Perfect Assistant Application
-// Date: 2017-07-19 18:35:34 +0000
+// Date: 2017-07-27 18:31:26 +0000
 import PackageDescription
 let package = Package(
 	name: "PerfectAuthServer",

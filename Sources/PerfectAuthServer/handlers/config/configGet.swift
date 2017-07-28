@@ -8,6 +8,7 @@
 
 import PerfectHTTP
 import PerfectLogger
+import LocalAuthentication
 
 
 extension Handlers {
@@ -18,6 +19,9 @@ extension Handlers {
 			let contextAccountID = request.session?.userid ?? ""
 			let contextAuthenticated = !(request.session?.userid ?? "").isEmpty
 			if !contextAuthenticated { response.redirect(path: "/login") }
+
+			// Verify Admin
+			Account.adminBounce(request, response)
 
 			var context: [String : Any] = [
 				"accountID": contextAccountID,
