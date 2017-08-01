@@ -27,9 +27,9 @@ extension Handlers {
 			let user = Account()
 			try? user.get(contextAccountID)
 
-			var template = "views/myprofileoauth"
+			var template = "/views/myprofileoauth.mustache"
 			if user.source == "local" {
-				template = "views/myprofilelocal"
+				template = "/views/myprofilelocal.mustache"
 			}
 
 			if request.method == .post {
@@ -74,7 +74,7 @@ extension Handlers {
 			for i in Handlers.appExtras(request) {
 				context[i.0] = i.1
 			}
-			response.render(template: template, context: context)
+			response.renderMustache(template: request.documentRoot + template, context: context)
 		}
 	}
 

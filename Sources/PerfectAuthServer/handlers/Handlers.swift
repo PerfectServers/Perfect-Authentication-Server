@@ -43,7 +43,7 @@ class Handlers {
 			for i in Handlers.extras(request) { context[i.0] = i.1 }
 			for i in Handlers.appExtras(request) { context[i.0] = i.1 }
 
-			response.render(template: "views/index", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/index.mustache", context: context)
 		}
 	}
 

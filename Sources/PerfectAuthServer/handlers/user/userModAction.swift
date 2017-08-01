@@ -33,7 +33,7 @@ extension Handlers {
 				try? user.get(id)
 
 				if user.id.isEmpty {
-					redirectRequest(request, response, msg: "Invalid User", template: "views/user")
+					redirectRequest(request, response, msg: "Invalid User", template: request.documentRoot + "/views/user.mustache")
 				}
 			}
 
@@ -72,7 +72,7 @@ extension Handlers {
 
 			} else {
 				msg = "Please enter the user's first and last name, as well as a valid email."
-				redirectRequest(request, response, msg: msg, template: "views/users", additional: [
+				redirectRequest(request, response, msg: msg, template: request.documentRoot + "/views/users.mustache", additional: [
 					"usermod?":"true",
 					])
 			}
@@ -97,7 +97,7 @@ extension Handlers {
 				context[i.0] = i.1
 			}
 
-			response.render(template: "views/users", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/users.mustache", context: context)
 		}
 	}
 }

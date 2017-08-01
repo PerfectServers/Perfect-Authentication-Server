@@ -27,7 +27,7 @@ extension Handlers {
 				context[i.0] = i.1
 			}
 
-			response.render(template: "views/login", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/login.mustache", context: context)
 		}
 	}
 

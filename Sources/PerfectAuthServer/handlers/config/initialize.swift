@@ -32,7 +32,7 @@ extension Handlers {
 				context[i.0] = i.1
 			}
 
-			response.render(template: "views/initialsetup", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/initialsetup.mustache", context: context)
 		}
 	}
 
@@ -76,7 +76,7 @@ extension Handlers {
 			} else {
 				print("Please enter the user's first and last name, as well as a valid email.")
 				msg = "Please enter the user's first and last name, as well as a valid email."
-				redirectRequest(request, response, msg: msg, template: "views/initialsetup")
+				redirectRequest(request, response, msg: msg, template: request.documentRoot + "/views/initialsetup.mustache")
 			}
 
 			response.redirect(path: "/")

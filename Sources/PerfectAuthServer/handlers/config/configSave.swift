@@ -72,7 +72,7 @@ extension Handlers {
 				context[i.0] = i.1
 			}
 
-			response.render(template: "views/config", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/config.mustache", context: context)
 		}
 	}
 	

@@ -33,7 +33,7 @@ extension Handlers {
 				try? user.get(id)
 
 				if user.id.isEmpty {
-					redirectRequest(request, response, msg: "Invalid User", template: "views/user")
+					redirectRequest(request, response, msg: "Invalid User", template: request.documentRoot + "/views/user.mustache")
 				}
 
 				action = "Edit"
@@ -72,7 +72,7 @@ extension Handlers {
 			for i in Handlers.appExtras(request) {
 				context[i.0] = i.1
 			}
-			response.render(template: "views/users", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/users.mustache", context: context)
 		}
 	}
 

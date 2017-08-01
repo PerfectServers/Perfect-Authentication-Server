@@ -42,7 +42,7 @@ extension Handlers {
 			for i in Handlers.appExtras(request) {
 				context[i.0] = i.1
 			}
-			response.render(template: "views/users", context: context)
+			response.renderMustache(template: request.documentRoot + "/views/users.mustache", context: context)
 		}
 	}
 
