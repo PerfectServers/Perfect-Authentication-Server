@@ -1,0 +1,21 @@
+{{>../header}}
+<div class="row" style="margin-top: 100px;">
+	<div class="col thirteen last push_three">
+
+<h2 class="dmb">The application "{{application}}" is requesting authentication access:</h2>
+
+		<div class="warn pt pb">
+			Granting access to this application will allow it to see your name, email address and profile.
+		</div>
+
+		<form action="/oauth/grant?client_id={{client_id}}&response_type={{response_type}}&redirect_uri={{redirect_uri}}&state={{state}}" method="POST">
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+			<button type="submit" class="dmt">Grant Access</button>
+
+		</form>
+	</div>
+
+</div>
+{{>../footer}}
+

@@ -91,6 +91,18 @@ func mainRoutes() -> [[String: Any]] {
 
 
 	// =========================================================================================
+	// Applications
+	// =========================================================================================
+	routes.append(["method":"get", "uri":"/applications", "handler":Handlers.applicationList])
+	routes.append(["method":"get", "uri":"/applications/create", "handler":Handlers.applicationMod])
+	routes.append(["method":"get", "uri":"/applications/{id}/edit", "handler":Handlers.applicationMod])
+	routes.append(["method":"post", "uri":"/applications/create", "handler":Handlers.applicationModAction])
+	routes.append(["method":"post", "uri":"/applications/{id}/edit", "handler":Handlers.applicationModAction])
+	routes.append(["method":"delete", "uri":"/applications/{id}/delete", "handler":Handlers.applicationDelete])
+
+
+
+	// =========================================================================================
 	// OAuth2 Triggers
 	// =========================================================================================
 	routes.append(["method":"get", "uri":"/to/facebook", "handler":Facebook.sendToProvider])
@@ -112,6 +124,14 @@ func mainRoutes() -> [[String: Any]] {
 
 	routes.append(["method":"get", "uri":"/oauth/convert", "handler":Handlers.oAuth2ConvertToUser])
 
+	// =========================================================================================
+	// OAuth2 Server
+	// =========================================================================================
+	routes.append(["method":"get", "uri":"/oauth/authenticate", "handler":OAuth2Handlers.authorize])
+	routes.append(["method":"post", "uri":"/oauth/login", "handler":OAuth2Handlers.login])
+	routes.append(["method":"post", "uri":"/oauth/grant", "handler":OAuth2Handlers.grant])
+	routes.append(["method":"post", "uri":"/oauth/token", "handler":OAuth2Handlers.getToken]) // exchange token
+	routes.append(["method":"get", "uri":"/oauth/profile", "handler":OAuth2Handlers.getProfile])
 
 
 	return routes

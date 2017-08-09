@@ -1,0 +1,42 @@
+<h2>Applications</h2>
+
+{{msg}}
+
+<div class="row">
+	<h4>Endpoints:</h4>
+    <div class="row hpt">
+        <div class="col first two">Authorization:</div>
+        <div class="col six">https://auth.perfect.org/oauth/authenticate</div>
+    </div>
+    <div class="row hpt">
+        <div class="col first two">Token:</div>
+        <div class="col six">https://auth.perfect.org/oauth/token</div>
+    </div>
+</div>
+
+<table class="amp">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Client_ID</th>
+			<th>&nbsp;</th>
+		</tr>
+	<thead>
+
+	<tbody>
+	{{#list}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{clientid}}</td>
+			<td class="largericons">
+				<a href="/applications/{{id}}/edit"><span class="icon-pencil"></span></a>
+				<a href="/applications/{{id}}/delete" class="deleteaction" dest="/applications"><span class="icon-trash"></span></a>
+			</td>
+		</tr>
+	{{/list}}
+	<tbody>
+
+</table>
+
+<a href="/applications/create" class="button">Create Application</a>
+

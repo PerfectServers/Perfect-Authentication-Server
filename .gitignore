@@ -74,3 +74,4 @@ Package.pins
 ApplicationConfiguration.json
 StORMlog.txt
 PADockerfile_build
+perfectauthserver.service

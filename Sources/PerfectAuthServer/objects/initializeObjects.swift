@@ -17,11 +17,18 @@
 //===----------------------------------------------------------------------===//
 //
 
+import LocalAuthentication
+
 extension Utility {
 	static func initializeObjects() {
 
-//		let a = Event()
-//		try? a.setup()
+		// Application
+		Application.setup()
 
+		// Access Token
+		AccessToken.setup()
+
+		// OAuth2Codes
+		OAuth2Codes.setup()
 	}
 }

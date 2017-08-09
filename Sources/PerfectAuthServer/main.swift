@@ -62,6 +62,12 @@ SessionConfig.cookieSameSite = .lax
 RequestLogFile.location = "./log.log"
 
 
+// =======================================================================
+// OAuth2 Default Token Expiry
+// =======================================================================
+var oAuth2TokenExpiry = 60 * 24 * 65 // one year
+
+
 
 let opts = initializeSchema(fname) // <-- loads base config like db and email configuration
 httpPort = opts["httpPort"] as? Int ?? httpPort

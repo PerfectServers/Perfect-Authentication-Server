@@ -1,0 +1,85 @@
+<h2>Applications</h2>
+	<h3 class="mt">{{action}} Application</h3>
+
+	{{msg}}
+
+	<form action="?" method="POST" id="theform">
+		<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		<input type="hidden" name="id" value="{{id}}">
+		<div class="row">
+
+			<div class="col six first">
+				<div class="row">
+					<label class="mt hmb">Name:</label>
+					<div class="col thirteen first">
+						<input type="text" name="name" class="hpl" value="{{name}}" required>
+					</div>
+				</div>
+
+
+				<div class="row dpt">
+					<label class="mt hmb">Client_ID:</label>
+					<div class="col thirteen first">
+						{{clientid}}
+					</div>
+				</div>
+
+				<div class="row hpt">
+					<label class="mt hmb">Client_Secret:</label>
+					<div class="col thirteen first">
+						{{clientsecret}}
+					</div>
+				</div>
+
+			</div>
+			<div class="col six last">
+
+
+				<div class="row">
+					<label class="mt hmb">Authorized Redirect URL's:</label>
+					<div class="col thirteen first">
+						<input type="text" name="redirect0" class="hpl" value="{{redirect0}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect1" class="hpl" value="{{redirect1}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect2" class="hpl" value="{{redirect2}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect3" class="hpl" value="{{redirect3}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect4" class="hpl" value="{{redirect4}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect5" class="hpl" value="{{redirect5}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect6" class="hpl" value="{{redirect6}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect7" class="hpl" value="{{redirect7}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect8" class="hpl" value="{{redirect8}}">
+					</div>
+					<div class="col thirteen first">
+						<input type="text" name="redirect9" class="hpl" value="{{redirect9}}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="dmt">Save</button>
+		<a href="/applications" class="button">Cancel</a>
+	</form>
+
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/additional-methods.min.js"></script>
+
+<script>
+$("#theform").validate();
+</script>
+
+
+

@@ -36,7 +36,7 @@ class Handlers {
 				return
 			}
 
-			var context: [String : Any] = ["title": "Perfect Authentication Server"]
+			var context: [String : Any] = ["title": configTitle]
 			if let i = request.session?.userid, !i.isEmpty { context["authenticated"] = true }
 
 			// add app config vars

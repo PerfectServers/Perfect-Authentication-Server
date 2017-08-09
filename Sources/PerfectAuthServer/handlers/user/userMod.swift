@@ -57,6 +57,12 @@ extension Handlers {
 				context["usertypestandard"] = " selected=\"selected\""
 			case .admin:
 				context["usertypeadmin"] = " selected=\"selected\""
+			case .admin1:
+				context["usertypeadmin1"] = " selected=\"selected\""
+			case .admin2:
+				context["usertypeadmin2"] = " selected=\"selected\""
+			case .admin3:
+				context["usertypeadmin3"] = " selected=\"selected\""
 			case .inactive:
 				context["usertypeinactive"] = " selected=\"selected\""
 			default:

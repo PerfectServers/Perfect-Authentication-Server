@@ -13,7 +13,7 @@ extension Account {
 		let user = Account()
 		do {
 			try user.get(request.session?.userid ?? "")
-			if user.usertype != .admin {
+			if !user.isAdmin() {
 				response.redirect(path: "/")
 			}
 		} catch {

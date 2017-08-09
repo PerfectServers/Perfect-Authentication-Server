@@ -1,0 +1,34 @@
+{{>../header}}
+<div class="row" style="margin-top: 100px;">
+	<div class="col thirteen last push_three">
+
+		<h2 class="dmb">Please Login to continue</h2>
+
+		{{#msg_body}}
+		<div class="error pt pb">
+			<h3>{{msg_title}}</h3>
+			{{{msg_body}}}
+		</div>
+		{{/msg_body}}
+
+			<form action="/oauth/login?client_id={{client_id}}&response_type={{response_type}}&redirect_uri={{redirect_uri}}&state={{state}}" method="POST">
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+			<fieldset>
+				<label class="above" for="username">Username</label>
+				<input type="text" id="username" name="username" placeholder="Username" />
+			</fieldset>
+
+			<fieldset class="mt">
+				<label class="above" for="password">Password</label>
+				<input type="password" id="password" name="password" placeholder="Password" />
+			</fieldset>
+
+			<button type="submit" class="dmt">Login</button>
+
+		</form>
+	</div>
+
+</div>
+{{>../footer}}
+
