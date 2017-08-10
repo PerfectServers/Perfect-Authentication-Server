@@ -18,9 +18,12 @@
 //
 
 import LocalAuthentication
+import PostgresStORM
 
 extension Utility {
 	static func initializeObjects() {
+
+		PostgresConnector.quiet = true
 
 		// Application
 		Application.setup()
@@ -30,5 +33,7 @@ extension Utility {
 
 		// OAuth2Codes
 		OAuth2Codes.setup()
+
+		PostgresConnector.quiet = false
 	}
 }
