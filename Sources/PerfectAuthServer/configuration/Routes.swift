@@ -69,14 +69,6 @@ func mainRoutes() -> [[String: Any]] {
 	routes.append(["method":"post", "uri":"/api/v1/changepassword", "handler":LocalAuthJSONHandlers.changePassword])
 
 	// =========================================================================================
-	// OAuth2 Redirector (see https://github.com/OAuthSwift/OAuthSwift/wiki/API-with-only-HTTP-scheme-into-callback-URL)
-	/*
-	for 'oauth-swift' URL scheme : http://oauthswift.herokuapp.com/callback/{path?query} which redirect to oauth-swift://oauth-callback/{path?query}
-	*/
-	// =========================================================================================
-	routes.append(["method":"get", "uri":"/api/v1/oauth/return/{provider}", "handler":Handlers.oAuthRedirecter])
-
-	// =========================================================================================
 	// Users
 	// =========================================================================================
 	routes.append(["method":"get", "uri":"/users", "handler":Handlers.userList])
@@ -132,6 +124,15 @@ func mainRoutes() -> [[String: Any]] {
 	routes.append(["method":"post", "uri":"/oauth/grant", "handler":OAuth2Handlers.grant])
 	routes.append(["method":"post", "uri":"/oauth/token", "handler":OAuth2Handlers.getToken]) // exchange token
 	routes.append(["method":"get", "uri":"/oauth/profile", "handler":OAuth2Handlers.getProfile])
+
+	// =========================================================================================
+	// OAuth2 Redirector (see https://github.com/OAuthSwift/OAuthSwift/wiki/API-with-only-HTTP-scheme-into-callback-URL)
+	/*
+	for 'oauth-swift' URL scheme : http://oauthswift.herokuapp.com/callback/{path?query} which redirect to oauth-swift://oauth-callback/{path?query}
+	*/
+	// =========================================================================================
+	routes.append(["method":"get", "uri":"/api/v1/oauth/return/{provider}", "handler":Handlers.oAuthRedirecter])
+	routes.append(["method":"post", "uri":"/api/v1/oauth/return/{provider}", "handler":Handlers.oAuthRedirecter])
 
 
 	return routes

@@ -71,10 +71,9 @@ extension Handlers {
 			let provider = request.urlVariables["provider"] ?? ""
 
 
-			print("REDIRECTING TO: \(LocalAuthConfig.OAuthAppNameScheme)/\(provider)?\(str.joined(separator: "&"))")
-			print("REDIRECTING TO: oauth-swift://oauth-callback/\(provider)?\(str.joined(separator: "&"))")
+//			print("REDIRECTING TO: \(LocalAuthConfig.OAuthAppNameScheme)/\(provider)?\(str.joined(separator: "&"))")
+//			print("REDIRECTING TO: oauth-swift://oauth-callback/\(provider)?\(str.joined(separator: "&"))")
 			response.status = .temporaryRedirect
-			//			response.setHeader(.location, value: "oauth-swift://oauth-callback/facebook?\(str.joined(separator: "&"))")
 			response.setHeader(.location, value: "\(LocalAuthConfig.OAuthAppNameScheme)/\(provider)?\(str.joined(separator: "&"))")
 			response.completed()
 		}

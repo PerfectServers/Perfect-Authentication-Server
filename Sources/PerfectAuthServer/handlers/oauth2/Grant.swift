@@ -34,7 +34,11 @@ extension OAuth2Handlers {
 
 			} else {
 				let code = OAuth2Codes(userid: (request.session?.userid ?? ""), clientid: client_id, expiration: 10)
-				response.redirect(path: "\(redirecturl)?code=\(code.code)&state=\(state)")
+//				response.status = .movedPermanently
+//				response.redirect(path: "\(redirecturl)?code=\(code.code)&state=\(state)")
+//				response.setHeader(.location, value: "\(redirecturl)?code=\(code.code)&state=\(state)")
+				response.renderMustache(template: request.documentRoot + "/views/OAuth/OAuthRediect.mustache", context: ["metatags":"<meta http-equiv=\"refresh\" content=\"0; url=\(redirecturl)?code=\(code.code)&state=\(state)\" />","location":"\(redirecturl)?code=\(code.code)&state=\(state)"])
+				response.completed()
 			}
 		}
 	}
