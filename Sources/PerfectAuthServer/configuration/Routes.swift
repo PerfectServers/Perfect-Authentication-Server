@@ -67,6 +67,7 @@ func mainRoutes() -> [[String: Any]] {
 	routes.append(["method":"post", "uri":"/api/v1/register", "handler":LocalAuthJSONHandlers.register])
 	routes.append(["method":"post", "uri":"/api/v1/login", "handler":LocalAuthJSONHandlers.login])
 	routes.append(["method":"post", "uri":"/api/v1/changepassword", "handler":LocalAuthJSONHandlers.changePassword])
+	routes.append(["method":"get", "uri":"/api/v1/mydata", "handler":Handlers.myData])
 
 	// =========================================================================================
 	// Users
