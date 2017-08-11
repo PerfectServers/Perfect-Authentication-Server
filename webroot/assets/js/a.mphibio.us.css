@@ -4035,12 +4035,12 @@ form.multi.beside fieldset.date_picker_set fieldset:nth-child(2n) label
 
 @font-face {
     font-family: 'entypo';
-    src:    url('/fonts/entypo.eot?5chmt5');
-    src:    url('/fonts/entypo.eot?5chmt5#iefix') format('embedded-opentype'),
-        url('/fonts/entypo.woff2?5chmt5') format('woff2'),
-        url('/fonts/entypo.ttf?5chmt5') format('truetype'),
-        url('/fonts/entypo.woff?5chmt5') format('woff'),
-        url('/fonts/entypo.svg?5chmt5#entypo') format('svg');
+    src:    url('/assets/fonts/entypo.eot?5chmt5');
+    src:    url('/assets/fonts/entypo.eot?5chmt5#iefix') format('embedded-opentype'),
+        url('/assets/fonts/entypo.woff2?5chmt5') format('woff2'),
+        url('/assets/fonts/entypo.ttf?5chmt5') format('truetype'),
+        url('/assets/fonts/entypo.woff?5chmt5') format('woff'),
+        url('/assets/fonts/entypo.svg?5chmt5#entypo') format('svg');
     font-weight: normal;
     font-style: normal;
 }
