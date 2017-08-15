@@ -10,6 +10,7 @@ import SwiftMoment
 import PerfectHTTP
 import PerfectLogger
 import LocalAuthentication
+import OAuth2
 
 
 extension Handlers {
@@ -70,7 +71,6 @@ extension Handlers {
 
 			let provider = request.urlVariables["provider"] ?? ""
 
-
 //			print("REDIRECTING TO: \(LocalAuthConfig.OAuthAppNameScheme)/\(provider)?\(str.joined(separator: "&"))")
 //			print("REDIRECTING TO: oauth-swift://oauth-callback/\(provider)?\(str.joined(separator: "&"))")
 			response.status = .temporaryRedirect
@@ -78,4 +78,8 @@ extension Handlers {
 			response.completed()
 		}
 	}
+
+
+
+
 }
