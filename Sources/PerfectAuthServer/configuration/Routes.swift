@@ -68,6 +68,7 @@ func mainRoutes() -> [[String: Any]] {
 	routes.append(["method":"post", "uri":"/api/v1/login", "handler":LocalAuthJSONHandlers.login])
 	routes.append(["method":"post", "uri":"/api/v1/changepassword", "handler":LocalAuthJSONHandlers.changePassword])
 	routes.append(["method":"get", "uri":"/api/v1/mydata", "handler":Handlers.myData])
+	routes.append(["method":"post", "uri":"/api/v1/mydata", "handler":Handlers.myData])
 
 	// =========================================================================================
 	// Users
@@ -134,6 +135,7 @@ func mainRoutes() -> [[String: Any]] {
 	// =========================================================================================
 	routes.append(["method":"get", "uri":"/api/v1/oauth/return/{provider}", "handler":Handlers.oAuthRedirecter])
 	routes.append(["method":"post", "uri":"/api/v1/oauth/return/{provider}", "handler":Handlers.oAuthRedirecter])
+	routes.append(["method":"get", "uri":"/api/v1/oauth/upgrade/{provider}/{token}", "handler":Handlers.oAuth2UpgradeToUser])
 
 
 	return routes
