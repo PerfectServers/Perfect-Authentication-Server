@@ -29,7 +29,7 @@ func filters() -> [[String: Any]] {
 	filters.append(["type":"response","priority":"low","name":RequestLogger.filterAPIResponse])
 
 	// added for sessions
-	filters.append(["type":"request","priority":"high","name":SessionPostgresFilter.filterAPIRequest])
+	filters.append(["type":"request","priority":"high","name":OAuth2SessionPostgresFilter.filterAPIRequest])
 	filters.append(["type":"response","priority":"high","name":SessionPostgresFilter.filterAPIResponse])
 
 	return filters
