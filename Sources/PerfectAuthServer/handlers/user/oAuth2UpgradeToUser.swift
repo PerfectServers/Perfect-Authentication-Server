@@ -33,6 +33,15 @@ extension Handlers {
 				userProfile = Linkedin(clientID: "",clientSecret: "").getUserData(accessToken)
 			case "google":
 				userProfile = Google(clientID: "",clientSecret: "").getUserData(accessToken)
+			case "local":
+				let tok	= AccessToken()
+				try? tok.get(accessToken)
+				userProfile["userid"]		= tok.userid
+				let thisUser = Account()
+				try? thisUser.get(tok.userid)
+				userProfile["first_name"]	= thisUser.detail["firstname"] as? String ?? ""
+				userProfile["last_name"]	= thisUser.detail["lastname"] as? String ?? ""
+				userProfile["picture"]		= thisUser.detail["picture"] as? String ?? ""
 			default:
 				response.completed(status: .badRequest)
 				return
