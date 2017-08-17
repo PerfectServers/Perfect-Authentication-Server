@@ -9,6 +9,7 @@
 import PerfectHTTP
 import PerfectLogger
 import LocalAuthentication
+import StORM
 
 
 extension Handlers {
@@ -17,8 +18,15 @@ extension Handlers {
 		return {
 			request, response in
 
+
 			let users = Account()
 			try? users.findAll()
+
+			if users.error.string() == StORMError.connectionError.string() {
+				response.renderMustache(template: request.documentRoot + "/views/msg.mustache", context: ["msg_title": "Connection Error", "msg_body": "Please check your PostgreSQL server, and connection parameters."])
+				return
+			}
+
 			if users.rows().count > 0 {
 				response.redirect(path: "/")
 				response.completed()
