@@ -25,105 +25,203 @@ import LocalAuthentication
 import OAuth2
 import StORM
 import PostgresStORM
+import Foundation
+import PerfectCrypto
 
 struct AppCredentials {
 	var clientid = ""
 	var clientsecret = ""
 }
 
-func config() {
-	#if os(Linux)
-		let fname = "./config/ApplicationConfigurationLinux.json"
-	#else
-		let fname = "./config/ApplicationConfiguration.json"
-	#endif
+extension Config {
 
-	if let configData = JSONConfig(name: fname) {
-		if let dict = configData.getValues() {
-
-			// Required Values
-			httpPort = dict["httpport"] as? Int ?? httpPort
-
-			// Optional Values
-			if let i = dict["databasedebug"] {
-				if (i as? String ?? "") == "true" {
-					StORMdebug = true
-				}
-			}
-
-			if let i = dict["sslCertPath"] {
-				if !(i as? String ?? "").isEmpty {
-					sslCertPath = i as? String ?? ""
-				}
-			}
-			if let i = dict["sslKeyPath"] {
-				if !(i as? String ?? "").isEmpty {
-					sslKeyPath = i as? String ?? ""
-				}
-			}
-
-			if let i = dict["baseDomain"] {
-				if !(i as? String ?? "").isEmpty {
-					SessionConfig.cookieDomain = i as? String ?? SessionConfig.cookieDomain
-				}
-			}
-
-			// For ORM
-			PostgresConnector.host        = dict["postgreshost"] as? String ?? "localhost"
-			PostgresConnector.username    = dict["postgresuser"] as? String ?? ""
-			PostgresConnector.password    = dict["postgrespwd"] as? String ?? ""
-			PostgresConnector.database    = dict["postgresdbname"] as? String ?? ""
-			PostgresConnector.port        = dict["postgresport"] as? Int ?? 5432
-
-			// For Sessions
-			PostgresSessionConnector.host = PostgresConnector.host
-			PostgresSessionConnector.port = PostgresConnector.port
-			PostgresSessionConnector.username = PostgresConnector.username
-			PostgresSessionConnector.password = PostgresConnector.password
-			PostgresSessionConnector.database = PostgresConnector.database
-			PostgresSessionConnector.table = "sessions"
-
-			// Outbound email config
-			SMTPConfig.mailserver         = dict["mailserver"] as? String ?? ""
-			SMTPConfig.mailuser			  = dict["mailuser"] as? String ?? ""
-			SMTPConfig.mailpass			  = dict["mailpass"] as? String ?? ""
-			SMTPConfig.mailfromaddress    = dict["mailfromaddress"] as? String ?? ""
-			SMTPConfig.mailfromname       = dict["mailfromname"] as? String ?? ""
-
-			// OAuth2 Config
-			if let i = dict["facebookAppID"] { FacebookConfig.appid = i as? String ?? "" }
-			if let i = dict["facebookSecret"] { FacebookConfig.secret = i as? String ?? "" }
-			if let i = dict["facebookEndpointAfterAuth"] { FacebookConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["facebookRedirectAfterAuth"] { FacebookConfig.redirectAfterAuth = i as? String ?? "" }
-
-			if let i = dict["githubKey"] { GitHubConfig.appid = i as? String ?? "" }
-			if let i = dict["githubSecret"] { GitHubConfig.secret = i as? String ?? "" }
-			if let i = dict["githubEndpointAfterAuth"] { GitHubConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["githubRedirectAfterAuth"] { GitHubConfig.redirectAfterAuth = i as? String ?? "" }
-
-			if let i = dict["googleKey"] { GoogleConfig.appid = i as? String ?? "" }
-			if let i = dict["googleSecret"] { GoogleConfig.secret = i as? String ?? "" }
-			if let i = dict["googleEndpointAfterAuth"] { GoogleConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["googleRedirectAfterAuth"] { GoogleConfig.redirectAfterAuth = i as? String ?? "" }
-
-			if let i = dict["linkedinKey"] { LinkedinConfig.appid = i as? String ?? "" }
-			if let i = dict["linkedinSecret"] { LinkedinConfig.secret = i as? String ?? "" }
-			if let i = dict["linkedinEndpointAfterAuth"] { LinkedinConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["linkedinRedirectAfterAuth"] { LinkedinConfig.redirectAfterAuth = i as? String ?? "" }
-
-			if let i = dict["slackKey"] { SlackConfig.appid = i as? String ?? "" }
-			if let i = dict["slackSecret"] { SlackConfig.secret = i as? String ?? "" }
-			if let i = dict["slackEndpointAfterAuth"] { SlackConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["slackRedirectAfterAuth"] { SlackConfig.redirectAfterAuth = i as? String ?? "" }
-
-			if let i = dict["salesforceKey"] { SalesForceConfig.appid = i as? String ?? "" }
-			if let i = dict["salesforceSecret"] { SalesForceConfig.secret = i as? String ?? "" }
-			if let i = dict["salesforceEndpointAfterAuth"] { SalesForceConfig.endpointAfterAuth = i as? String ?? "" }
-			if let i = dict["salesforceRedirectAfterAuth"] { SalesForceConfig.redirectAfterAuth = i as? String ?? "" }
-
+	fileprivate static func envVarOrDictOrDefault(_ env: String, _ dict: [String : Any], dictName: String, def: String) -> String {
+		return (ProcessInfo.processInfo.environment[env]) ?? dict[dictName] as? String ?? def
+	}
+	fileprivate static func envVarOrDictOrDefault(_ env: String, _ dict: [String : Any], dictName: String, def: Int) -> Int {
+		if let envv = ProcessInfo.processInfo.environment[env] {
+			return Int(envv) ?? 5432
 		}
-	} else {
-		print("Unable to get Configuration")
+		return dict[dictName] as? Int ?? def
 	}
 
+	public static func load() {
+		#if os(Linux)
+			let fname = "./config/ApplicationConfigurationLinux.json"
+		#else
+			let fname = "./config/ApplicationConfiguration.json"
+		#endif
+
+		if let configData = JSONConfig(name: fname) {
+			if let dict = configData.getValues() {
+
+				// ====================================================================================
+				// HTTP port
+				// Not loaded from database
+				// ====================================================================================
+				httpPort = dict["httpport"] as? Int ?? httpPort
+
+				// ====================================================================================
+				// Database debug
+				// ====================================================================================
+				let _ = Config("databasedebug", dict["databasedebug"] as? String ?? "", {
+					value in
+					if value == "true" {
+						StORMdebug = true
+					} else {
+						StORMdebug = false
+					}
+				})
+
+
+
+				// ====================================================================================
+				// SSL State
+				// ====================================================================================
+				let _ = Config("sslCertPath", dict["sslCertPath"] as? String ?? "", {
+					value in
+					sslCertPath = value
+				})
+				let _ = Config("sslKeyPath", dict["sslKeyPath"] as? String ?? "", {
+					value in
+					sslKeyPath = value
+				})
+
+
+
+				// ====================================================================================
+				// For ORM
+				// Not loaded from database
+				// ====================================================================================
+				var rds = "RDS"
+				if let rdsvar = ProcessInfo.processInfo.environment["POSTGRES_RDS"] {
+					rds = rdsvar
+				}
+				PostgresConnector.host		= envVarOrDictOrDefault("\(rds)_ADDRESS", dict, dictName: "postgreshost", def: "localhost")
+				PostgresConnector.username	= envVarOrDictOrDefault("\(rds)_USERNAME", dict, dictName: "postgresuser", def: "perfect")
+				PostgresConnector.password	= envVarOrDictOrDefault("\(rds)_PASSWORD", dict, dictName: "postgrespwd", def: "perfect")
+				PostgresConnector.port		= envVarOrDictOrDefault("\(rds)_PORT", dict, dictName: "postgresuser", def: 5432)
+				PostgresConnector.database	= dict["postgresdbname"] as? String ?? "authserver"
+
+
+				// ====================================================================================
+				// For Sessions
+				// Not loaded from database
+				// ====================================================================================
+				PostgresSessionConnector.host = PostgresConnector.host
+				PostgresSessionConnector.port = PostgresConnector.port
+				PostgresSessionConnector.username = PostgresConnector.username
+				PostgresSessionConnector.password = PostgresConnector.password
+				PostgresSessionConnector.database = PostgresConnector.database
+				PostgresSessionConnector.table = "sessions"
+
+				// ====================================================================================
+				// Outbound email config
+				// ====================================================================================
+				let _ = Config("mailserver", dict["mailserver"] as? String ?? "", {
+					value in
+					SMTPConfig.mailserver = value
+				})
+				let _ = Config("mailuser", dict["mailuser"] as? String ?? "", {
+					value in
+					SMTPConfig.mailuser = value
+				})
+
+				let origValue = dict["mailpass"] as? String ?? ""
+				var encrypted = ""
+				let cipher = Cipher.aes_256_cbc
+				let salt = "All good things come to those who wait..."
+
+				// Encryption
+				if !origValue.isEmpty {
+					encrypted = origValue.encrypt(cipher, password: SMTPConfig.mailuser, salt: salt) ?? ""
+				}
+				let _ = Config("mailpass", encrypted, {
+					value in
+					if !value.isEmpty {
+						// Decryption
+						let decrypted = value.decrypt(cipher, password: SMTPConfig.mailuser, salt: salt) ?? ""
+						SMTPConfig.mailpass = decrypted
+					}
+				})
+
+
+
+
+				let _ = Config("mailfromaddress", dict["mailfromaddress"] as? String ?? "", {
+					value in
+					SMTPConfig.mailfromaddress = value
+				})
+				let _ = Config("mailfromname", dict["mailfromname"] as? String ?? "", {
+					value in
+					SMTPConfig.mailfromname = value
+				})
+
+
+
+				// ====================================================================================
+				// URL's
+				// ====================================================================================
+				let _ = Config("baseDomain", dict["baseDomain"] as? String ?? "", {
+					value in
+					SessionConfig.cookieDomain = value
+				})
+
+				let _ = Config("baseURL", dict["baseURL"] as? String ?? "", {
+					value in
+					baseURL = value
+
+					FacebookConfig.endpointAfterAuth = "\(value)/auth/response/facebook"
+					FacebookConfig.redirectAfterAuth = "\(value)/oauth/convert"
+
+					GoogleConfig.endpointAfterAuth = "\(value)/auth/response/google"
+					GoogleConfig.redirectAfterAuth = "\(value)/oauth/convert"
+
+					LinkedinConfig.endpointAfterAuth = "\(value)/auth/response/linkedin"
+					LinkedinConfig.redirectAfterAuth = "\(value)/oauth/convert"
+				})
+
+				// ====================================================================================
+				// OAuth2 Config
+				// ====================================================================================
+				// Facebook
+				let _ = Config("facebookAppID", dict["facebookAppID"] as? String ?? "", {
+					value in
+					FacebookConfig.appid = value
+				})
+				let _ = Config("facebookSecret", dict["facebookSecret"] as? String ?? "", {
+					value in
+					FacebookConfig.secret = value
+				})
+
+				// Google
+				let _ = Config("googleKey", dict["googleKey"] as? String ?? "", {
+					value in
+					GoogleConfig.appid = value
+				})
+				let _ = Config("googleSecret", dict["googleSecret"] as? String ?? "", {
+					value in
+					GoogleConfig.secret = value
+				})
+
+				// Linkedin
+				let _ = Config("linkedinKey", dict["linkedinKey"] as? String ?? "", {
+					value in
+					LinkedinConfig.appid = value
+				})
+				let _ = Config("linkedinSecret", dict["linkedinSecret"] as? String ?? "", {
+					value in
+					LinkedinConfig.secret = value
+				})
+
+
+				// ====================================================================================
+				// END
+				// ====================================================================================
+			}
+		} else {
+			print("Unable to get Configuration")
+		}
+
+	}
 }
