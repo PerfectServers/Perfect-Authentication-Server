@@ -74,22 +74,20 @@ httpPort = opts["httpPort"] as? Int ?? httpPort
 baseURL = opts["baseURL"] as? String ?? baseURL
 
 
+// =======================================================================
+// Run local setup routines
+// =======================================================================
+Config.runSetup()
+
 
 // =======================================================================
 // Load DB access
 // We cn also now init the session driver
 // =======================================================================
-config()
+Config.load()
 let sessionDriver = SessionPostgresDriver()
 Utility.initializeObjects()
 
-
-
-
-// =======================================================================
-// Run local setup routines
-// =======================================================================
-Config.runSetup()
 
 
 
@@ -158,6 +156,9 @@ if !sslKeyPath.isEmpty, !sslCertPath.isEmpty {
 //	])
 }
 
+let x = Config()
+try? x.findAll()
+let _ = x.rows()
 
 // =======================================================================
 // Server start
