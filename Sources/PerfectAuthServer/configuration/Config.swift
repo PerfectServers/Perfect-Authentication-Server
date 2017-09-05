@@ -27,6 +27,7 @@ import StORM
 import PostgresStORM
 import Foundation
 import PerfectCrypto
+import PerfectCloudFormation
 
 struct AppCredentials {
 	var clientid = ""
@@ -35,13 +36,10 @@ struct AppCredentials {
 
 extension Config {
 
-	fileprivate static func envVarOrDictOrDefault(_ env: String, _ dict: [String : Any], dictName: String, def: String) -> String {
-		return (ProcessInfo.processInfo.environment[env]) ?? dict[dictName] as? String ?? def
+	fileprivate static func dictOrDefault(_ dict: [String : Any], dictName: String, def: String) -> String {
+		return dict[dictName] as? String ?? def
 	}
-	fileprivate static func envVarOrDictOrDefault(_ env: String, _ dict: [String : Any], dictName: String, def: Int) -> Int {
-		if let envv = ProcessInfo.processInfo.environment[env] {
-			return Int(envv) ?? 5432
-		}
+	fileprivate static func dictOrDefault(_ dict: [String : Any], dictName: String, def: Int) -> Int {
 		return dict[dictName] as? Int ?? def
 	}
 
@@ -93,14 +91,19 @@ extension Config {
 				// For ORM
 				// Not loaded from database
 				// ====================================================================================
-				var rds = "RDS"
-				if let rdsvar = ProcessInfo.processInfo.environment["POSTGRES_RDS"] {
-					rds = rdsvar
+				
+				if let pgsql = CloudFormation.listRDSInstances(type: .postgres)
+						.sorted(by: { $0.resourceName < $1.resourceName }).first {
+					PostgresConnector.host = pgsql.hostName
+					PostgresConnector.port = pgsql.hostPort
+					PostgresConnector.username = pgsql.userName
+					PostgresConnector.password = pgsql.password
+				} else {
+					PostgresConnector.host		= dictOrDefault(dict, dictName: "postgreshost", def: "localhost")
+					PostgresConnector.username	= dictOrDefault(dict, dictName: "postgresuser", def: "perfect")
+					PostgresConnector.password	= dictOrDefault(dict, dictName: "postgrespwd", def: "perfect")
+					PostgresConnector.port		= dictOrDefault(dict, dictName: "postgresuser", def: 5432)
 				}
-				PostgresConnector.host		= envVarOrDictOrDefault("\(rds)_ADDRESS", dict, dictName: "postgreshost", def: "localhost")
-				PostgresConnector.username	= envVarOrDictOrDefault("\(rds)_USERNAME", dict, dictName: "postgresuser", def: "perfect")
-				PostgresConnector.password	= envVarOrDictOrDefault("\(rds)_PASSWORD", dict, dictName: "postgrespwd", def: "perfect")
-				PostgresConnector.port		= envVarOrDictOrDefault("\(rds)_PORT", dict, dictName: "postgresuser", def: 5432)
 				PostgresConnector.database	= dict["postgresdbname"] as? String ?? "authserver"
 
 

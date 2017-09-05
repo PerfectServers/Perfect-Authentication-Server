@@ -1,5 +1,5 @@
 // Generated automatically by Perfect Assistant Application
-// Date: 2017-07-27 18:31:26 +0000
+// Date: 2017-09-03 17:03:36 +0000
 import PackageDescription
 let package = Package(
 	name: "PerfectAuthServer",
@@ -14,5 +14,6 @@ let package = Package(
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-RequestLogger.git", majorVersion: 1),
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-LocalAuthentication-PostgreSQL.git", majorVersion: 1),
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-OAuth2.git", majorVersion: 1),
+		.Package(url: "https://github.com/PerfectlySoft/Perfect-CloudFormation.git", majorVersion: 0),
 	]
 )
