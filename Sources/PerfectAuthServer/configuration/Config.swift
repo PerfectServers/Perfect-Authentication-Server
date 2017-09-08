@@ -91,7 +91,7 @@ extension Config {
 					let tempdb = PostgresConnector.database
 					PostgresConnector.database = "postgres"
 					do {
-						let _ = try thisConfig.sql("CREATE DATABASE \(tempdb) OWNER \(PostgresConnector.username)", params: [])
+						let _ = try thisConfig.sql("CREATE DATABASE \(tempdb)", params: [])
 					} catch {
 						fatalError("\(error.localizedDescription)")
 					}
