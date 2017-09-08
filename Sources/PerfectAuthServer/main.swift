@@ -74,10 +74,6 @@ httpPort = opts["httpPort"] as? Int ?? httpPort
 baseURL = opts["baseURL"] as? String ?? baseURL
 
 
-// =======================================================================
-// Run local setup routines
-// =======================================================================
-Config.runSetup()
 
 
 // =======================================================================
@@ -88,6 +84,12 @@ Config.load()
 let sessionDriver = SessionPostgresDriver()
 Utility.initializeObjects()
 
+
+
+// =======================================================================
+// Run local setup routines
+// =======================================================================
+//X.runSetup()
 
 
 
