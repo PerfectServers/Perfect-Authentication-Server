@@ -30,7 +30,7 @@ let _ = PerfectCrypto.isInitialized
 
 #if os(Linux)
 let fileRoot = "/perfect-deployed/apidocumentationserver/" // <-- change
-var httpPort = 8100
+var httpPort = 80
 let fname = "./config/ApplicationConfigurationLinux.json"
 #else
 let fileRoot = ""
