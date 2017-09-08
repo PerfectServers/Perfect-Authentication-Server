@@ -25,6 +25,9 @@ extension Utility {
 
 		PostgresConnector.quiet = true
 
+		// Account
+		Account.setup()
+
 		// Application
 		Application.setup()
 
