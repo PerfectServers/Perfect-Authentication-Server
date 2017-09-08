@@ -59,6 +59,67 @@ extension Config {
 				// ====================================================================================
 				httpPort = dict["httpport"] as? Int ?? httpPort
 
+
+				// ====================================================================================
+				// For ORM
+				// Not loaded from database
+				// ====================================================================================
+				
+				if let pgsql = CloudFormation.listRDSInstances(type: .postgres)
+						.sorted(by: { $0.resourceName < $1.resourceName }).first {
+					PostgresConnector.host = pgsql.hostName
+					PostgresConnector.port = pgsql.hostPort
+					PostgresConnector.username = pgsql.userName
+					PostgresConnector.password = pgsql.password
+				} else {
+					PostgresConnector.host		= dictOrDefault(dict, dictName: "postgreshost", def: "localhost")
+					PostgresConnector.username	= dictOrDefault(dict, dictName: "postgresuser", def: "perfect")
+					PostgresConnector.password	= dictOrDefault(dict, dictName: "postgrespwd", def: "perfect")
+					PostgresConnector.port		= dictOrDefault(dict, dictName: "postgresuser", def: 5432)
+				}
+				PostgresConnector.database	= dict["postgresdbname"] as? String ?? "authserver"
+
+
+				// ====================================================================================
+				// Make sure database exists - or create it
+				// ====================================================================================
+				let thisConfig = Config()
+				let result = try? thisConfig.sql("SELECT 1 FROM pg_database WHERE datname = $1", params: [PostgresConnector.database])
+				if result?.numFields() == nil {
+					// Creating database
+					print("Creating Database now: \(PostgresConnector.database)")
+					let tempdb = PostgresConnector.database
+					PostgresConnector.database = "postgres"
+					do {
+						let _ = try thisConfig.sql("CREATE DATABASE \(tempdb) OWNER \(PostgresConnector.username)", params: [])
+					} catch {
+						fatalError("\(error.localizedDescription)")
+					}
+					PostgresConnector.database = tempdb
+				}
+
+
+				// ====================================================================================
+				// For Sessions
+				// Not loaded from database
+				// ====================================================================================
+				PostgresSessionConnector.host = PostgresConnector.host
+				PostgresSessionConnector.port = PostgresConnector.port
+				PostgresSessionConnector.username = PostgresConnector.username
+				PostgresSessionConnector.password = PostgresConnector.password
+				PostgresSessionConnector.database = PostgresConnector.database
+				PostgresSessionConnector.table = "sessions"
+
+
+				
+				// ====================================================================================
+				// Make sure Config exists
+				// ====================================================================================
+				try? thisConfig.setup()
+
+
+
+
 				// ====================================================================================
 				// Database debug
 				// ====================================================================================
@@ -84,46 +145,6 @@ extension Config {
 					value in
 					sslKeyPath = value
 				})
-
-
-
-				// ====================================================================================
-				// For ORM
-				// Not loaded from database
-				// ====================================================================================
-				
-				if let pgsql = CloudFormation.listRDSInstances(type: .postgres)
-						.sorted(by: { $0.resourceName < $1.resourceName }).first {
-					PostgresConnector.host = pgsql.hostName
-					PostgresConnector.port = pgsql.hostPort
-					PostgresConnector.username = pgsql.userName
-					PostgresConnector.password = pgsql.password
-				} else {
-					PostgresConnector.host		= dictOrDefault(dict, dictName: "postgreshost", def: "localhost")
-					PostgresConnector.username	= dictOrDefault(dict, dictName: "postgresuser", def: "perfect")
-					PostgresConnector.password	= dictOrDefault(dict, dictName: "postgrespwd", def: "perfect")
-					PostgresConnector.port		= dictOrDefault(dict, dictName: "postgresuser", def: 5432)
-				}
-				PostgresConnector.database	= dict["postgresdbname"] as? String ?? "authserver"
-
-
-				// ====================================================================================
-				// For Sessions
-				// Not loaded from database
-				// ====================================================================================
-				PostgresSessionConnector.host = PostgresConnector.host
-				PostgresSessionConnector.port = PostgresConnector.port
-				PostgresSessionConnector.username = PostgresConnector.username
-				PostgresSessionConnector.password = PostgresConnector.password
-				PostgresSessionConnector.database = PostgresConnector.database
-				PostgresSessionConnector.table = "sessions"
-
-
-				
-				// ====================================================================================
-				// Make sure Config exists
-				// ====================================================================================
-				Config.runSetup()
 
 
 
