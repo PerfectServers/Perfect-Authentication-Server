@@ -24,38 +24,24 @@
 	
 	"facebookAppID": "",
 	"facebookSecret": "",
-	"facebookEndpointAfterAuth": "http://localhost:8181/auth/response/facebook",
-	"facebookRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"twitterKey": "",
 	"twitterSecret": "",
-	"twitterEndpointAfterAuth": "http://localhost:8181/auth/response/twitter",
-	"twitterRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"githubKey": "",
 	"githubSecret": "",
-	"githubEndpointAfterAuth": "http://localhost:8181/auth/response/github",
-	"githubRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"googleKey": "",
 	"googleSecret": "",
-	"googleEndpointAfterAuth": "http://localhost:8181/auth/response/google",
-	"googleRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"linkedinKey": "",
 	"linkedinSecret": "",
-	"linkedinEndpointAfterAuth": "http://localhost:8181/auth/response/linkedin",
-	"linkedinRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"slackKey": "",
 	"slackSecret": "",
-	"slackEndpointAfterAuth": "http://localhost:8181/auth/response/slack",
-	"slackRedirectAfterAuth":"http://localhost:8181/oauth/convert",
 
 	"salesforceKey": "",
-	"salesforceSecret": "",
-	"salesforceEndpointAfterAuth": "http://localhost:8181/auth/response/salesforce",
-	"salesforceRedirectAfterAuth":"http://localhost:8181/oauth/convert"
+	"salesforceSecret": ""
 
 
 }
