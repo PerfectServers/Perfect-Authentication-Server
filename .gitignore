@@ -76,3 +76,4 @@ StORMlog.txt
 PADockerfile_build
 perfectauthserver.service
 .DS_Store
+Package.resolved
