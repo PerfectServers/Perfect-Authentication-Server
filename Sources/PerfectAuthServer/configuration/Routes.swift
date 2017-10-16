@@ -18,7 +18,7 @@
 //
 
 import PerfectHTTPServer
-import LocalAuthentication
+import PerfectLocalAuthentication
 import OAuth2
 
 func mainRoutes() -> [[String: Any]] {

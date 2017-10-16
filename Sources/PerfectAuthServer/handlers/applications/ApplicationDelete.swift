@@ -7,7 +7,7 @@
 
 import PerfectHTTP
 import PerfectLogger
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 
 extension Handlers {

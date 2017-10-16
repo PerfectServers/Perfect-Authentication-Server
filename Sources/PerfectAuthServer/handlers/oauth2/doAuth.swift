@@ -9,7 +9,7 @@
 import SwiftMoment
 import PerfectHTTP
 import PerfectLogger
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 extension OAuth2Handlers {
 

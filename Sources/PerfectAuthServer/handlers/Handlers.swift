@@ -19,7 +19,7 @@
 
 import PerfectHTTP
 import StORM
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 class Handlers {
 

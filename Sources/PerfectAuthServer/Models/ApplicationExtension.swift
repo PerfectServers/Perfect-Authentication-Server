@@ -5,7 +5,7 @@
 //  Created by Jonathan Guthrie on 2017-08-04.
 //
 
-import LocalAuthentication
+import PerfectLocalAuthentication
 import StORM
 
 extension Application {

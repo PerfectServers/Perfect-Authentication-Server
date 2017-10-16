@@ -5,7 +5,7 @@
 //  Created by Jonathan Guthrie on 2017-07-28.
 //
 
-import LocalAuthentication
+import PerfectLocalAuthentication
 import PerfectHTTP
 
 extension Account {

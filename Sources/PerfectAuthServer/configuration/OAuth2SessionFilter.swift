@@ -9,7 +9,7 @@ import PerfectHTTP
 import PerfectSession
 import PerfectSessionPostgreSQL
 import PerfectLogger
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 public class OAuth2SessionPostgresFilter {
 	public var driver = PostgresSessions()

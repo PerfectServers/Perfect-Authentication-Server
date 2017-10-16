@@ -8,7 +8,7 @@
 
 import PerfectHTTP
 import StORM
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 extension Handlers {
 

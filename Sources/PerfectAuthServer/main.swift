@@ -24,7 +24,7 @@ import PerfectRequestLogger
 import PerfectSession
 import PerfectSessionPostgreSQL
 import PerfectCrypto
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 let _ = PerfectCrypto.isInitialized
 

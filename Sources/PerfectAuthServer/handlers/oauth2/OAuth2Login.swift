@@ -9,7 +9,7 @@ import PerfectHTTP
 import PerfectSession
 import PerfectCrypto
 import PerfectSessionPostgreSQL
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 extension OAuth2Handlers {
 

@@ -17,7 +17,7 @@
 //===----------------------------------------------------------------------===//
 //
 
-import LocalAuthentication
+import PerfectLocalAuthentication
 import PostgresStORM
 
 extension Utility {

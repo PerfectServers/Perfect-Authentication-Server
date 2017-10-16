@@ -7,7 +7,7 @@
 
 
 import PerfectHTTP
-import LocalAuthentication
+import PerfectLocalAuthentication
 import PerfectLib
 
 

@@ -8,7 +8,7 @@
 import SwiftMoment
 import PerfectHTTP
 import PerfectLogger
-import LocalAuthentication
+import PerfectLocalAuthentication
 
 /*
 	localhost:8181/oauth/authenticate?client_id=S7oZBD42uusODflJ38jkug&secret=khP9KGFnMDy0na3Ai_keYQ&response_type=code&redirect_uri=http://localhost:8181/donkey

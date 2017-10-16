@@ -21,7 +21,7 @@ import PerfectLib
 import JSONConfig
 import PerfectSession
 import PerfectSessionPostgreSQL
-import LocalAuthentication
+import PerfectLocalAuthentication
 import OAuth2
 import StORM
 import PostgresStORM
