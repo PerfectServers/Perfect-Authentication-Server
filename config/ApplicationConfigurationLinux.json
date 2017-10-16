@@ -8,7 +8,7 @@
 	"postgresport": 5432,
 	"postgresuser": "perfect",
 	"postgrespwd": "perfect",
-	"httpport": 8181,
+	"httpport": 80,
 
 	"mailserver": "smtp://...",
 	"mailuser": "...",
