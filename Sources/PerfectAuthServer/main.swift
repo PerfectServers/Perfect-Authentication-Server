@@ -48,7 +48,7 @@ var sslKeyPath = ""
 // =======================================================================
 SessionConfig.name = "perfectSession" // <-- change
 SessionConfig.idle = 86400
-SessionConfig.cookieDomain = "localhost" //<-- change
+SessionConfig.cookieDomain = "" //<-- change (also in configuration JSON), leave empty for only origin
 SessionConfig.IPAddressLock = false
 SessionConfig.userAgentLock = false
 SessionConfig.CSRF.checkState = true
