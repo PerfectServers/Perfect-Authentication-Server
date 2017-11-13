@@ -75,7 +75,7 @@ extension Config {
 					PostgresConnector.host		= dictOrDefault(dict, dictName: "postgreshost", def: "localhost")
 					PostgresConnector.username	= dictOrDefault(dict, dictName: "postgresuser", def: "perfect")
 					PostgresConnector.password	= dictOrDefault(dict, dictName: "postgrespwd", def: "perfect")
-					PostgresConnector.port		= dictOrDefault(dict, dictName: "postgresuser", def: 5432)
+					PostgresConnector.port		= dictOrDefault(dict, dictName: "postgresport", def: 5432)
 				}
 				PostgresConnector.database	= dict["postgresdbname"] as? String ?? "authserver"
 
