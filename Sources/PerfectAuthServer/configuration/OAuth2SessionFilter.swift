@@ -28,17 +28,17 @@ extension OAuth2SessionPostgresFilter: HTTPRequestFilter {
 			if let token = request.getCookie(name: SessionConfig.name) {
 				// From Cookie
 				session = driver.resume(token: token)
-			} else if let bearer = request.header(.authorization), !bearer.isEmpty {
+			} else if var bearer = request.header(.authorization), !bearer.isEmpty, bearer.hasPrefix("Bearer ") {
 				// From Bearer Token
-				let b = bearer.chompLeft("Bearer ")
+				bearer.removeFirst("Bearer ".count)
 				//print("looking for token \(b)")
-				session = driver.resume(token: b)
+				session = driver.resume(token: bearer)
 
 				// For OAuth2 Filters, add alternative load here.
 				if session.token.isEmpty {
 //					print("For OAuth2 Filters, add alternative load here")
 					let accessToken = AccessToken()
-					try? accessToken.get(b)
+					try? accessToken.get(bearer)
 					//print("access token: \(accessToken.accesstoken)")
 					if !accessToken.accesstoken.isEmpty, accessToken.isCurrent() {
 						session._isOAuth2 = true

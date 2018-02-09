@@ -8,16 +8,13 @@
 import StORM
 import PostgresStORM
 import Foundation
-import SwiftRandom
-import SwiftMoment
+import PerfectLocalAuthentication
 
 public class OAuth2Codes: PostgresStORM {
 	public var code				= ""
 	public var expires			= 0
 	public var clientid			= ""
 	public var userid			= ""
-
-	var _rand = URandom()
 
 	public static func setup(_ str: String = "") {
 		do {
@@ -37,15 +34,15 @@ public class OAuth2Codes: PostgresStORM {
 
 	public init(userid u: String, clientid c: String, expiration: Int, scope s: [String] = [String]()) {
 		super.init()
-		code = _rand.secureToken
+		code = AccessToken.generate()
 		clientid = c
 		userid = u
-		expires = Int(moment().epoch()) + (expiration * 1000)
+		expires = time(nil) + expiration
 		try? create()
 	}
 
 	public func isCurrent() -> Bool {
-		if Int(moment().epoch()) > expires { return false }
+		if time(nil) > expires { return false }
 		return true
 	}
 

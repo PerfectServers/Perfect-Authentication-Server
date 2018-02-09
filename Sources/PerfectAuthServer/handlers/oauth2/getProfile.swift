@@ -5,7 +5,7 @@
 //  Created by Jonathan Guthrie on 2017-08-09.
 //
 
-import SwiftString
+import Foundation
 import PerfectHTTP
 import PerfectLogger
 import PerfectLocalAuthentication
@@ -17,11 +17,11 @@ extension OAuth2Handlers {
 			request, response in
 
 			let user = Account()
-			if let bearer = request.header(.authorization), !bearer.isEmpty {
+			if var bearer = request.header(.authorization), !bearer.isEmpty, bearer.hasPrefix("Bearer ") {
 				// From Bearer Token
-				let token = bearer.chompLeft("Bearer ")
+				bearer.removeFirst("Bearer ".count)
 				let accessTokenRecord = AccessToken()
-				try? accessTokenRecord.get(token)
+				try? accessTokenRecord.get(bearer)
 				if !accessTokenRecord.isCurrent() {
 					response.completed(status: .unauthorized)
 				}

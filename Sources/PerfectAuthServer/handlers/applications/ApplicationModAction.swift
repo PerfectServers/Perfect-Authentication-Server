@@ -8,7 +8,6 @@
 import PerfectHTTP
 import PerfectLogger
 import PerfectLocalAuthentication
-import SwiftRandom
 
 
 extension Handlers {
@@ -50,13 +49,11 @@ extension Handlers {
 				}
 
 
-				let r = URandom()
-
 				if obj.clientid.isEmpty {
-					obj.clientid = r.secureToken
+					obj.clientid = AccessToken.generate()
 				}
 				if obj.clientsecret.isEmpty {
-					obj.clientsecret = r.secureToken
+					obj.clientsecret = AccessToken.generate()
 				}
 
 				if obj.id.isEmpty {
