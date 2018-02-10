@@ -5,7 +5,6 @@
 //  Created by Jonathan Guthrie on 2017-08-08.
 //
 
-import SwiftMoment
 import PerfectHTTP
 import PerfectLogger
 import PerfectLocalAuthentication
@@ -23,7 +22,7 @@ extension OAuth2Handlers {
 			let app = OAuth2Handlers.doAuthCheck(request, response)
 
 			// CHECK INFO IS VALID
-			if app.id.isEmpty() {
+			if app.id.isEmpty {
 				let _ = try? response.setBody(json: ["error":OAuth2ErrorCodes.invalid_request])
 				response.completed(status: .badRequest)
 				return

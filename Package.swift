@@ -7,6 +7,7 @@ let package = Package(
 	dependencies: [
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-LocalAuthentication-PostgreSQL.git", majorVersion: 3),
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-OAuth2.git", majorVersion: 3),
+    .Package(url: "https://github.com/PerfectlySoft/Perfect-HTTPServer.git", majorVersion: 3),
 		.Package(url: "https://github.com/PerfectlySoft/Perfect-CloudFormation.git", majorVersion: 0),
 	]
 )

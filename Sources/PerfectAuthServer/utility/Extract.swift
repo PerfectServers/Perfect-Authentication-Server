@@ -13,7 +13,6 @@
 //
 
 import Foundation
-import SwiftMoment
 
 class StORMPatch {
 
@@ -38,7 +37,9 @@ class StORMPatch {
 		// Note this leverages SwiftMoment
 		// =======================================================================================
 		public static func date(_ data: [String: Any], _ name: String, _ def: Date? = Date()) -> Date? {
-			return moment(Extract.string(data, name)!)?.date ?? def
+      let fmt = DateFormatter()
+      fmt.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+      return fmt.date(from: Extract.string(data, name) ?? "1970-01-01 00:00:00 0000")
 		}
 
 		// =======================================================================================
